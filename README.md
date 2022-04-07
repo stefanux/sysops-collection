@@ -98,10 +98,10 @@ Optional roles
   - nginx
     - reverse-proxy
   - Apache ( -> geerlingguy.apache )
-    - simples LAMP
+    - apache only (simple static sites)
     - redirector
-    - mehr LAMP  (-> geerlingguy.php geerlingguy.php-versions )
-  - All-in-one-Paket
+    - LAMP  (-> geerlingguy.php geerlingguy.php-versions )
+  - All-in-one-packages
     - froxlor
     - ispconfig -> sysops.tv
 
@@ -109,7 +109,7 @@ Optional roles
   - letsencrypt
     - certbot https://github.com/stefanux/ansible-role-certbot
     - helper-scripte -> deploy_hook
-  - TLS distribution
+  - certificate distribution
     - own certs (individual, wildcards)
     - vaulted files via sops https://github.com/mozilla/sops ?)
   - internal CA (creates certs for hosts)
@@ -118,13 +118,13 @@ Optional roles
   - mailserver (dovecot + postfix)
    - stand-alone
    - backends like LDAP
+  - local mailrelay/satellite-setup for cron etc.
+    - postfix https://github.com/stefanux/ansible-postfix-mailrelay -> can use any SMTP-accounts (2DO include examples for microsoft365, google, a few common providers)
   - archiving
     - mailpiler -> sysops.tv
   - spamfiltering
     - rspamd (need redis)
     - spamassassin/policy-weightd/postgrey
-  - postfix mailrelay (see E-Mail) for cron etc. https://github.com/stefanux/ansible-postfix-mailrelay
-    -> can use any SMTP-Relay (2DO include examples for microsoft365, google, a few common providers)
 
 **VPN**
   - openvpn
@@ -136,16 +136,18 @@ Optional roles
   - **self-hosted server**
     - recursive
       - dnsdist (-> powerdns.dnsdist ) + powerDNS-recursor (-> powerdns.pdns_recursor) (clustering: keepalived, csync2-sync von Zertifikaten wenn letsencrypt, nginx-reverse-proxy für Statusseite)
-        - with filtering (lua-based) or without
-      - bind (2DO) -> example on mx1.stefanux.net
-      - pihole ?
+      - bind (2DO -> maintainer needed)
     - autoritative
       - PowerDNS Authoritative (-> in progress)
       - bind -> 2DO: maintainer needed
-    - DoT
+    - DoT (DNS over TLS)
       - powerdns
       - bind? -> 2DO: maintainer needed
     - DoH / dnscrypt (not supported atm, only if maintainer is found)
+    - adfiltering
+      - powerdns with filtering (lua-based) - unreleased solution available
+      - pihole ?
+      - adguard home?
   - **DNS (external service)**:
     - inwx.de (because they offer official ansible-support, dnssec, anycast and API)
       - example
