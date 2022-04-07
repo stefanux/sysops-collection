@@ -50,7 +50,7 @@ Optional roles
 Backup
   - bacula https://github.com/stefanux/ansible-role-bacula
   - bareos (2DO)
-  - restic -> Rainer?
+  - restic (2DO maintainer needed)
   - mysql/mariadb (-> geerlingguy.mysql )
     - fulldump (SQL commands):
       - mysqlbackup https://github.com/stefanux/ansible-mysqlbackup
@@ -202,9 +202,9 @@ Apps
   - Piwik (2DO)
   - passwortmanager
     - vaultwarden
-    - hashicorp vault (maintainer needed)?
-    - privacyIDEA (-> mlands ?)
-  - roundcube webmail (-> inwx)
+    - hashicorp vault (2DO maintainer needed)?
+    - privacyIDEA (2DO maintainer needed)
+  - roundcube webmail
 
 Requirements
 ------------
@@ -241,4 +241,29 @@ FAQ
 ---
 
 Q: Why no shellscripts?
-A: Shellscript have limited capabilities and you would to re-implements lots of modules or language features (templating, handlers, are not idempotent, error-handlung etc.)
+A: Shellscript usually have limited capabilities and you would need to re-implement lots of modules or language features (templating, handlers, are not idempotent, error-handlung with pipefail, trap errors etc. which blows up Code massively) which are already freely available today.
+remember: installation is not always done interactivly done by a humans.
+
+to give a idea for error-handling in bash (how many of your scripts does implement that today?):
+~~~
+set -eo pipefail
+
+cleanup() {
+# remove temp files
+}
+trap cleanup 0
+
+error() {
+  local parent_lineno="$1"
+  local message="$2"
+  local code="${3:-1}"
+  if [[ -n "$message" ]] ; then
+    error_message="Error on or near line ${parent_lineno}: ${message}; exiting with status ${code}"
+  else
+    error_message="Error on or near line ${parent_lineno}; exiting with status ${code}"
+  fi
+  echo "$error_message" # for cron
+  exit "${code}"
+}
+trap 'error ${LINENO}' ERR
+~~~
