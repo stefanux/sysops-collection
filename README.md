@@ -17,20 +17,22 @@ supported distributions:
 baserole feature-list
 =====================
 
-- packages
+- **packages**
   - default packages
   - upgrade
   - unattended upgrades ( -> jnv.unattended-upgrades )
-- DNS
+- **DNS**
   - resolv.conf
   - FQDN (+reverse) 2DO (check if hostname --fqdn is not just hostname)
-- SSHD-config
-- Usermanagement (incl. authorized keys und sudo) 2DO generic with dictionary
-- config systemapps
-  - htop
+- **SSHD**
+  - config of sshd
+  - **fail2ban** (-> oefenweb.fail2ban ; optional helpers https://github.com/stefanux/fail2ban-remove-ban)
+- **Usermanagement** (incl. authorized keys und sudo) 2DO generic with dictionary
+- **configs** (of systemapps)
   - bashrc
-- fail2ban (-> oefenweb.fail2ban ; optional helpers https://github.com/stefanux/fail2ban-remove-ban)
-- NTP -> geerlingguy.ntp
+  - htop
+  - ...
+- **NTP** -> geerlingguy.ntp
 
 Recommended
 ===========
@@ -47,7 +49,7 @@ mailrelay: postfix (see E-Mail) for system-mails (like cron etc.) or apps: https
 Optional roles
 ==============
 
-Backup
+**Backup**
   - bacula https://github.com/stefanux/ansible-role-bacula
   - bareos (2DO)
   - restic (2DO maintainer needed)
@@ -61,34 +63,38 @@ Backup
   - opensense config
   - etckepper (2DO)
 
-Git
+**Git**
   - git (client) -> geerlingguy.git
   - gitea https://github.com/stefanux/ansible-role-gitea ( -> maintainer needed)
   - gitlab -> geerlingguy.gitlab
 
-ZFS
+**ZFS**
   - vanilla install (2DO)
   - special-usecases:
     - Proxmox https://github.com/bashclub/proxmox-zfs-postinstall
     - Samba shadow-copies "Zamba" https://github.com/bashclub/zamba-lxc-toolbox/
   - snapshot house-keeping: zfs-keep-and-clean https://github.com/bashclub/zfs-housekeeping
 
-docker
+**Docker**
   - installation https://github.com/stefanux/ansible-role-docker -> substitute with upstream: https://github.com/geerlingguy/ansible-role-docker Vergleich: https://github.com/stefanux/ansible-role-docker/compare/master...geerlingguy:master
   - registry
     - ...?
+  - optional management tools:
+    - portainer
+    - traeffik
 
-Instant messenger
+**Instant messenger**
   - mattermost
   - matrix-synapse / element-web
+  - ...?
 
-Filesharing
+**Filesharing**
   - samba
     - standalone (2DO: shadowcopy + fruit von bashclub ergänzen + ZFS)
     - AD-member "zmb-member" https://github.com/bashclub/zamba-lxc-toolbox
   - nextcloud
 
-webserver
+**Webserver**
   - nginx
     - reverse-proxy
   - Apache ( -> geerlingguy.apache )
@@ -99,7 +105,7 @@ webserver
     - froxlor
     - ispconfig -> sysops.tv
 
-TLS-cert + CA-management
+**TLS-cert + CA-management**
   - letsencrypt
     - certbot https://github.com/stefanux/ansible-role-certbot
     - helper-scripte -> deploy_hook
@@ -108,8 +114,10 @@ TLS-cert + CA-management
     - vaulted files via sops https://github.com/mozilla/sops ?)
   - internal CA (creates certs for hosts)
 
-E-Mail
-  - mailserver dovecot incl. postfix
+**E-Mail**
+  - mailserver (dovecot + postfix)
+   - stand-alone
+   - backends like LDAP
   - archiving
     - mailpiler -> sysops.tv
   - spamfiltering
@@ -118,55 +126,54 @@ E-Mail
   - postfix mailrelay (see E-Mail) for cron etc. https://github.com/stefanux/ansible-postfix-mailrelay
     -> can use any SMTP-Relay (2DO include examples for microsoft365, google, a few common providers)
 
-VPN
+**VPN**
   - openvpn
   - wireguard
   - ipsec strongswan (2DO, but low prio because usually this is done on firewalls and wireguard is simpler)
   - (stunnel -> needed?)
 
-DNS (server)
-  - recursive
-    - dnsdist (-> powerdns.dnsdist ) + powerDNS-recursor (-> powerdns.pdns_recursor) (clustering: keepalived, csync2-sync von Zertifikaten wenn letsencrypt, nginx-reverse-proxy für Statusseite)
-      - with filtering (lua-based) or without
-    - bind (2DO) -> example on mx1.stefanux.net
-    - pihole ?
-  - autoritative
-    - PowerDNS Authoritative (-> in progress)
-    - bind -> 2DO: maintainer needed
-  - DoT
-    - powerdns
-    - bind? -> 2DO: maintainer needed
-  - DoH / dnscrypt (not supported atm, only if maintainer is found)
+**DNS
+  - **self-hosted server**
+    - recursive
+      - dnsdist (-> powerdns.dnsdist ) + powerDNS-recursor (-> powerdns.pdns_recursor) (clustering: keepalived, csync2-sync von Zertifikaten wenn letsencrypt, nginx-reverse-proxy für Statusseite)
+        - with filtering (lua-based) or without
+      - bind (2DO) -> example on mx1.stefanux.net
+      - pihole ?
+    - autoritative
+      - PowerDNS Authoritative (-> in progress)
+      - bind -> 2DO: maintainer needed
+    - DoT
+      - powerdns
+      - bind? -> 2DO: maintainer needed
+    - DoH / dnscrypt (not supported atm, only if maintainer is found)
+  - **DNS (external service)**:
+    - inwx.de (because they offer official ansible-support, dnssec, anycast and API)
+      - example
+      - zone-management on inwx (request creation of a API-account via support-ticket)
+    - AWS/Route53?
+    - ...?
 
-
-DNS (external):
-  - inwx (because they offer official ansible-support, dnssec, anycast and API)
-    - example
-    - zone-management on inwx (request creation of a API-account via support-ticket)
-  - AWS/Route53?
-  - ...?
-
-Database
+**Database**
   - mysql (limited distribution-support or use packages from oracle?; community.mysql )
   - mariadb
     - standalone
     - galera (2DO)
   - PostgreSQL ( -> geerlingguy.postgresql )
 
-Monitoring
+**Monitoring**
+  - check_mk -> sysops.tv
+    - including checks/templates
+  - icinga(2) -> need maintainers
   - zabbix ( community.zabbix )
     - including checks/templates:
       - https://github.com/stefanux/zabbix_zfs-on-linux
       - pfsense (2DO)
       - opnsense (2DO)
       - ... (2DO extend List)
-  - check_mk -> sysops.tv
-    - including checks/templates
-  - icinga(2) -> need maintainers
   - Uptime Kuma (for SoHo or extra monitoring - include simple statuspage)
-  - statuspages (specialists): cachet, cstate
+  - statuspages: cachet, cstate, ... -> need maintainers
 
-User directory
+**User directory**
   - LDAP*?
     - Samba
     - 389dir
@@ -175,24 +182,24 @@ User directory
   - keycloak?
   - ...?
 
-Firewall
+**Firewall**
   - opensense
   - pfsense
 
-Clustering
+**Clustering**
   - keepalived
 
-Reverse-Proxy/Loadbalancer
+**Reverse-Proxy/Loadbalancer**
   - haproxy
   - nginx proxy manager GUI (needs docker)
   - nginx reverse proxy (vanilla)
   - apache mod_proxy (maintainer needed)
 
 
-Python
+**Python**
   - PIP -> geerlingguy.pip
 
-Apps
+**Apps**
   - Videoconference
     - bbb ( https://github.com/juanluisbaptiste/ansible-bigbluebutton )
     - jitsi via docker (but usage discouraged due to limitations, over-complex architecture and bad documentation)
@@ -216,10 +223,11 @@ Role requirements
 
 good documentation!
 
+code formatting (ansible-lint)
+
 example playbook
 
-define variables:
- (sollte pro Rolle (auch automatisiert einlesbar!) definiert werden):
+classify variables per role (enable automation/custom GUIs)
 - required (execution fails if not defined):
 - recommended
 - optional
@@ -244,7 +252,7 @@ Q: Why no shellscripts?
 A: Shellscript usually have limited capabilities and you would need to re-implement lots of modules or language features (templating, handlers, are not idempotent, error-handlung with pipefail, trap errors etc. which blows up Code massively) which are already freely available today.
 remember: installation is not always done interactivly done by a humans.
 
-to give a idea for error-handling in bash (how many of your scripts does implement that today?):
+to give a idea for error-handling in bash (how many of your scripts do implement that?):
 ~~~
 set -eo pipefail
 
