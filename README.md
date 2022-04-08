@@ -37,11 +37,15 @@ baserole feature-list
 Recommended
 ===========
 
+Virtualization
+  - proxmox
+  - libvirt/KVM ( tcharl.ansible_role_libvirt_host )
+  - LXC on proxmox (maintainer -> sysops.tv?  https://github.com/bashclub/zamba-lxc-toolbox)
+
+
 VM creation
   - libvirt/KVM/cloud-init ( tcharl.ansible_role_libvirt_host oder community.libvirt?, cloud-init-example on https://github.com/stefanux/cloud-init-example)
   - proxmox/cloud-init (in progress)
-
-LXC on proxmox (maintainer -> sysops.tv?)
 
 mailrelay: postfix (see E-Mail) for system-mails (like cron etc.) or apps: https://github.com/stefanux/ansible-postfix-mailrelay
 
@@ -70,10 +74,12 @@ Optional roles
 
 **ZFS**
   - vanilla install (2DO)
+  - Pool management (anlegen, devices via vars)
   - special-usecases:
     - Proxmox https://github.com/bashclub/proxmox-zfs-postinstall
     - Samba shadow-copies "Zamba" https://github.com/bashclub/zamba-lxc-toolbox/
   - snapshot house-keeping: zfs-keep-and-clean https://github.com/bashclub/zfs-housekeeping
+  - ZFS autosnapshot 
 
 **Docker**
   - installation https://github.com/stefanux/ansible-role-docker -> substitute with upstream: https://github.com/geerlingguy/ansible-role-docker Vergleich: https://github.com/stefanux/ansible-role-docker/compare/master...geerlingguy:master
