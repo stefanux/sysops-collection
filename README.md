@@ -32,7 +32,9 @@ baserole feature-list
   - bashrc
   - htop
   - ...
-- **NTP** -> geerlingguy.ntp
+- **NTP**
+  - ntpd -> geerlingguy.ntp
+  - chrony (when maintainers are found)
 
 Recommended
 ===========
@@ -41,7 +43,7 @@ Virtualization
   - proxmox
   - libvirt/KVM ( tcharl.ansible_role_libvirt_host )
   - LXC on proxmox (maintainer -> sysops.tv?  https://github.com/bashclub/zamba-lxc-toolbox)
-
+  - possibly other plattforms like ovirt or cloudstack (when maintainers are found)
 
 VM creation
   - libvirt/KVM/cloud-init ( tcharl.ansible_role_libvirt_host oder community.libvirt?, cloud-init-example on https://github.com/stefanux/cloud-init-example)
@@ -55,8 +57,9 @@ Optional roles
 
 **Backup**
   - bacula https://github.com/stefanux/ansible-role-bacula
-  - bareos (2DO)
-  - restic (2DO maintainer needed)
+  - bareos (2DO Coding)
+  - Borg+Borgmatic (2DO Port Code)
+  - restic (2DO Coding, maintainer needed)
   - mysql/mariadb (-> geerlingguy.mysql )
     - fulldump (SQL commands):
       - mysqlbackup https://github.com/stefanux/ansible-mysqlbackup
@@ -65,7 +68,7 @@ Optional roles
       - FIXME
   - pfsense config
   - opensense config
-  - etckepper (2DO)
+  - etckeeper (2DO)
 
 **Git**
   - git (client) -> geerlingguy.git
@@ -87,7 +90,7 @@ Optional roles
     - ...?
   - optional management tools:
     - portainer
-    - traeffik
+    - traefik
 
 **Instant messenger**
   - mattermost
@@ -109,7 +112,7 @@ Optional roles
     - LAMP  (-> geerlingguy.php geerlingguy.php-versions )
   - All-in-one-packages
     - froxlor
-    - ispconfig -> sysops.tv
+    - ispconfig -> sysops.tv?
 
 **TLS-cert + CA-management**
   - letsencrypt
@@ -124,7 +127,10 @@ Optional roles
   - mailserver (dovecot + postfix)
    - stand-alone
    - backends like LDAP
-  - local mailrelay/satellite-setup for cron etc.
+  - groupware
+    - kopano -> sysops.tv?
+    - ...?
+  - local mailrelay ("satellite")-setup for cron etc.
     - postfix https://github.com/stefanux/ansible-postfix-mailrelay -> can use any SMTP-accounts (2DO include examples for microsoft365, google, a few common providers)
   - archiving
     - mailpiler -> sysops.tv
@@ -138,11 +144,12 @@ Optional roles
   - ipsec strongswan (2DO, but low prio because usually this is done on firewalls and wireguard is simpler)
   - (stunnel -> needed?)
 
-**DNS
-  - **self-hosted server**
+**DNS**
+  - **self-hosted:*
     - recursive
       - dnsdist (-> powerdns.dnsdist ) + powerDNS-recursor (-> powerdns.pdns_recursor) (clustering: keepalived, csync2-sync von Zertifikaten wenn letsencrypt, nginx-reverse-proxy für Statusseite)
       - bind (2DO -> maintainer needed)
+      - unbound (2DO -> maintainer needed)
     - autoritative
       - PowerDNS Authoritative (-> in progress)
       - bind -> 2DO: maintainer needed
@@ -182,7 +189,7 @@ Optional roles
   - statuspages: cachet, cstate, ... -> need maintainers
 
 **User directory**
-  - LDAP*?
+  - LDAP?
     - Samba
     - 389dir
     - UCS univention
@@ -198,11 +205,14 @@ Optional roles
   - keepalived
 
 **Reverse-Proxy/Loadbalancer**
-  - haproxy
-  - nginx proxy manager GUI (needs docker)
-  - nginx reverse proxy (vanilla)
-  - apache mod_proxy (maintainer needed)
-
+  self-hosted:
+    - haproxy
+    - nginx proxy manager GUI (needs docker)
+    - nginx reverse proxy (vanilla)
+    - apache mod_proxy (maintainer needed)
+  managed (via API):
+    - hetzner LB
+    - ...?
 
 **Python**
   - PIP -> geerlingguy.pip
@@ -229,16 +239,27 @@ minimum ansible version: 2.10
 Role requirements
 -----------------
 
-good documentation!
-
-code formatting (ansible-lint)
+good documentation (preferably a link to a basic user documentation too)
 
 example playbook
 
-classify variables per role (enable automation/custom GUIs)
-- required (execution fails if not defined):
-- recommended
-- optional
+proper code formatting (ansible-lint)
+
+classify variables per role 
+- required (execution fails if not defined)
+- recommended (common customization)
+- optional (less commonly changed)
+
+dependencies
+- other roles
+- neede pip-modules on target
+
+definition of variables and dependencies (see above) need to be machine-readable to enable automation/custom GUIs) -> 2DO define fileformat!
+
+python3 is required
+
+active maintainers!
+
 
 Dependencies
 ------------
@@ -250,17 +271,20 @@ FIXME list all include_role in requirements-file
 License
 -------
 
-should we enables commercial forking (BSD? MIT?)?
+open discussion: should we enables commercial forking (BSD? MIT?)?
 ... or do we force GPLv3?
 
 FAQ
 ---
 
-Q: Why no shellscripts?
-A: Shellscript usually have limited capabilities and you would need to re-implement lots of modules or language features (templating, handlers, are not idempotent, error-handlung with pipefail, trap errors etc. which blows up Code massively) which are already freely available today.
-remember: installation is not always done interactivly done by a humans.
-
-to give a idea for error-handling in bash (how many of your scripts do implement that?):
+Q: Why not plain shellscripts?
+A: Shellscript have full flexibility ... but you`ll need to implement everything yourself:
+- templating with condition and variable expansion
+- handlers (run action when certain condition are met, i.e. restart service only when needed, like config changes
+- are not idempotent (it does not have the same result when you run it again)
+- re-implement stuff that is already available today
+- automated/unattended run (installations are not always done interactivly done by a humans!)
+- error-handling: try to trap errors with pipefail ... that blows up code massively. Example for error-handling in bash (how many of your scripts does implement something similar?):
 ~~~
 set -eo pipefail
 
