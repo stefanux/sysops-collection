@@ -3,7 +3,7 @@ Purpose and principles
 
 This collection should enable self-hosters full control of their infrastructure and data (GDPR-focus when external services are used).
 It will be OSS forever and everyone should be able to integrate it into their infrastructure (or product).
-We do not re-invent the wheel, if there is a good role or collection somewhere else: we won`t duplicate it.
+We do not re-invent the wheel, if there is a good role or collection somewhere else: we won`t duplicate it (unless important features are missing).
 
 supported distributions:
   - Debian (all supported versions)
@@ -63,7 +63,6 @@ Optional roles
   - mysql/mariadb (-> geerlingguy.mysql )
     - fulldump (SQL commands):
       - mysqlbackup https://github.com/stefanux/ansible-mysqlbackup
-      - automysqlbackup (maintained?) https://github.com/stefanux/automysqlbackup
     - other methods:
       - FIXME
   - pfsense config
@@ -75,14 +74,18 @@ Optional roles
   - gitea https://github.com/stefanux/ansible-role-gitea ( -> maintainer needed)
   - gitlab -> geerlingguy.gitlab
 
-**ZFS**
-  - vanilla install (2DO)
-  - Pool management (anlegen, devices via vars)
-  - special-usecases:
-    - Proxmox https://github.com/bashclub/proxmox-zfs-postinstall
-    - Samba shadow-copies "Zamba" https://github.com/bashclub/zamba-lxc-toolbox/
-  - snapshot house-keeping: zfs-keep-and-clean https://github.com/bashclub/zfs-housekeeping
-  - ZFS autosnapshot 
+
+**Filesystems **
+  - ZFS
+    - vanilla install (2DO)
+    - Pool management (anlegen, devices via vars)
+    - special-usecases:
+      - Proxmox https://github.com/bashclub/proxmox-zfs-postinstall
+      - Samba shadow-copies "Zamba" https://github.com/bashclub/zamba-lxc-toolbox/
+    - snapshot house-keeping: zfs-keep-and-clean https://github.com/bashclub/zfs-housekeeping
+    - ZFS autosnapshot
+  - ceph (?)
+  - glusterfs (?)
 
 **Docker**
   - installation https://github.com/stefanux/ansible-role-docker -> substitute with upstream: https://github.com/geerlingguy/ansible-role-docker Vergleich: https://github.com/stefanux/ansible-role-docker/compare/master...geerlingguy:master
@@ -93,13 +96,13 @@ Optional roles
     - traefik
 
 **Instant messenger**
-  - mattermost
+  - mattermost (Code ready)
   - matrix-synapse / element-web
   - ...?
 
 **Filesharing**
   - samba
-    - standalone (2DO: shadowcopy + fruit von bashclub ergänzen + ZFS)
+    - standalone (2DO: shadowcopy + fruit von bashclub ergänzen + ZFS) geerlingguy.samba / https://github.com/stefanux/ansible-role-samba.git
     - AD-member "zmb-member" https://github.com/bashclub/zamba-lxc-toolbox
   - nextcloud
 
@@ -177,13 +180,24 @@ Optional roles
 
 **Monitoring**
   - check_mk -> sysops.tv
-    - including checks/templates
+    - including checks/templates (2DO extend List)
   - icinga(2) -> need maintainers
   - zabbix ( community.zabbix )
     - including checks/templates:
-      - https://github.com/stefanux/zabbix_zfs-on-linux
+      - bacula
+      - bareos (2DO)
+      - iostat
+      - glusterfs
+      - mysql
+      - postfix
       - pfsense (2DO)
+        - wireguard/openvpn/ipsec
+      - tcpstats
       - opnsense (2DO)
+        - wireguard/openvpn/ipsec
+      - strongswan (ipsec)
+      - wireguard
+      - ZFS https://github.com/stefanux/zabbix_zfs-on-linux
       - ... (2DO extend List)
   - Uptime Kuma (for SoHo or extra monitoring - include simple statuspage)
   - statuspages: cachet, cstate, ... -> need maintainers
@@ -200,6 +214,9 @@ Optional roles
 **Firewall**
   - opensense
   - pfsense
+  - hostfirewall
+    - iptables/nftables geerlingguy.firewall (maybe iptables-persistent ?)
+    - ufw
 
 **Clustering**
   - keepalived
@@ -280,9 +297,10 @@ FAQ
 Q: Why not plain shellscripts?
 A: Shellscript have full flexibility ... but you`ll need to implement everything yourself:
 - templating with condition and variable expansion
-- handlers (run action when certain condition are met, i.e. restart service only when needed, like config changes
+- handlers (run action when certain condition are met, i.e. restart service only when config is changed via template)
 - are not idempotent (it does not have the same result when you run it again)
-- re-implement stuff that is already available today
+- re-implement code stuff that is already available today (ansible galaxy has tons of code)
+- validate config for services that offer it (i.e. prevent broken sudo configs ...)
 - automated/unattended run (installations are not always done interactivly done by a humans!)
 - error-handling: try to trap errors with pipefail ... that blows up code massively. Example for error-handling in bash (how many of your scripts does implement something similar?):
 ~~~
