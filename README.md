@@ -75,7 +75,7 @@ Optional roles
   - gitlab -> geerlingguy.gitlab
 
 
-**Filesystems **
+**Filesystems**
   - ZFS
     - vanilla install (2DO)
     - Pool management (anlegen, devices via vars)
@@ -325,3 +325,11 @@ error() {
 }
 trap 'error ${LINENO}' ERR
 ~~~
+
+
+similiar projects
+-----------------
+
+- https://github.com/tteck/Proxmox
+- debops https://docs.debops.org/en/stable-3.0/
+
