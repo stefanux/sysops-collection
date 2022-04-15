@@ -165,6 +165,7 @@ Optional roles
       - pihole ?
       - adguard home?
   - **DNS (external service)**:
+    - hetzner oder hosttech via https://github.com/ansible-collections/community.dns
     - inwx.de (because they offer official ansible-support, dnssec, anycast and API)
       - example
       - zone-management on inwx (request creation of a API-account via support-ticket)
