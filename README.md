@@ -169,6 +169,8 @@ Optional roles
     - inwx.de (because they offer official ansible-support, dnssec, anycast and API)
       - example
       - zone-management on inwx (request creation of a API-account via support-ticket)
+    - netcup https://docs.ansible.com/ansible/latest/collections/community/general/netcup_dns_module.html
+    - cloudflare https://docs.ansible.com/ansible/latest/collections/community/general/cloudflare_dns_module.html
     - AWS/Route53?
     - ...?
 
