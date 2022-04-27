@@ -43,7 +43,7 @@ Virtualization
   - proxmox
   - libvirt/KVM ( tcharl.ansible_role_libvirt_host )
   - LXC on proxmox (maintainer -> sysops.tv?  https://github.com/bashclub/zamba-lxc-toolbox)
-  - possibly other plattforms like ovirt or cloudstack (when maintainers are found)
+  - possibly other plattforms (like ovirt, openNebula or cloudstack - when maintainers are found)
 
 VM creation
   - libvirt/KVM/cloud-init ( tcharl.ansible_role_libvirt_host oder community.libvirt?, cloud-init-example on https://github.com/stefanux/cloud-init-example)
@@ -52,7 +52,7 @@ VM creation
 mailrelay: postfix (see E-Mail) for system-mails (like cron etc.) or apps: https://github.com/stefanux/ansible-postfix-mailrelay
 
 
-Optional roles
+Additional roles
 ==============
 
 **Backup**
@@ -65,8 +65,8 @@ Optional roles
       - mysqlbackup https://github.com/stefanux/ansible-mysqlbackup
     - other methods:
       - FIXME
-  - pfsense config
-  - opensense config
+  - pfsense config (2DO https://github.com/pfsensible/core ?)
+  - opensense config (2DO https://github.com/naturalis/ansible-opnsense ?)
   - etckeeper (2DO)
 
 **Git**
@@ -244,9 +244,11 @@ Optional roles
   - Wiki
     - dokuwiki https://github.com/stefanux/ansible-role-dokuwiki
     - wiki.js? (2Do: maintainer needed)
+    - bookstack (2Do: maintainer needed
+  - Netbox (IPAM/IT Asset Management)
   - Piwik (2DO)
   - passwortmanager
-    - vaultwarden
+    - vaultwarden (done)
     - hashicorp vault (2DO maintainer needed)?
     - privacyIDEA (2DO maintainer needed)
   - roundcube webmail
