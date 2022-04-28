@@ -78,7 +78,7 @@ Additional roles
 **Filesystems**
   - ZFS
     - vanilla install (2DO)
-    - Pool management (anlegen, devices via vars)
+    - Pool management (create, by-id-devices via vars)
     - special-usecases:
       - Proxmox https://github.com/bashclub/proxmox-zfs-postinstall
       - Samba shadow-copies "Zamba" https://github.com/bashclub/zamba-lxc-toolbox/
@@ -104,7 +104,7 @@ Additional roles
   - samba
     - standalone (2DO: shadowcopy + fruit von bashclub ergänzen + ZFS) geerlingguy.samba / https://github.com/stefanux/ansible-role-samba.git
     - AD-member "zmb-member" https://github.com/bashclub/zamba-lxc-toolbox
-  - nextcloud
+  - nextcloud (-> https://github.com/JGoutin/ansible_home/tree/master/roles/nextcloud ?)
 
 **Webserver**
   - nginx
@@ -114,7 +114,7 @@ Additional roles
     - redirector
     - LAMP  (-> geerlingguy.php geerlingguy.php-versions )
   - All-in-one-packages
-    - froxlor
+    - froxlor  (Code ready)
     - ispconfig -> sysops.tv?
 
 **TLS-cert + CA-management**
@@ -122,9 +122,9 @@ Additional roles
     - certbot https://github.com/stefanux/ansible-role-certbot
     - helper-scripte -> deploy_hook
   - certificate distribution
-    - own certs (individual, wildcards)
-    - vaulted files via sops https://github.com/mozilla/sops ?)
-  - internal CA (creates certs for hosts)
+    - own certs (individual, wildcards) -> Code available -> role
+    - vaulted files via sops https://github.com/mozilla/sops ? 2DO)
+  - internal CA (creates certs for hosts) -> 2DO
 
 **E-Mail**
   - mailserver (dovecot + postfix)
@@ -337,4 +337,4 @@ similiar projects
 
 - https://github.com/tteck/Proxmox
 - debops https://docs.debops.org/en/stable-3.0/
-
+- https://github.com/JGoutin/ansible_home
