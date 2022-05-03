@@ -1,22 +1,7 @@
-Purpose and principles
-======================
-
-This collection should enable self-hosters full control of their infrastructure and data (GDPR-focus when external services are used).
-It will be OSS forever and everyone should be able to integrate it into their infrastructure (or product).
-We do not re-invent the wheel, if there is a good role or collection somewhere else: we won`t duplicate it (unless important features are missing).
-
-supported distributions:
-  - Debian (all supported versions)
-  - Ubuntu (supported LTS-Versions)
-  - Redhat-based distribution (if maintainer is found)
-
-2DO in general:
-  - CI (travis, gitlab runner, ...?)
-
-
 baserole feature-list
 =====================
 
+- grub configuration
 - **packages**
   - default packages
   - upgrade
@@ -105,6 +90,12 @@ Additional roles
     - standalone (2DO: shadowcopy + fruit von bashclub ergänzen + ZFS) geerlingguy.samba / https://github.com/stefanux/ansible-role-samba.git
     - AD-member "zmb-member" https://github.com/bashclub/zamba-lxc-toolbox
   - nextcloud (-> https://github.com/JGoutin/ansible_home/tree/master/roles/nextcloud ?)
+  - S3
+    - minio
+    - ceph RGW
+  - SSH sftpgo
+  - SeaweedFS (?)
+  - OpenMediaVault / TrueNAS Core?
 
 **Webserver**
   - nginx
@@ -113,6 +104,8 @@ Additional roles
     - apache only (simple static sites)
     - redirector
     - LAMP  (-> geerlingguy.php geerlingguy.php-versions )
+      - mod_php
+      - php-fpm
   - All-in-one-packages
     - froxlor  (Code ready)
     - ispconfig -> sysops.tv?
@@ -136,10 +129,11 @@ Additional roles
   - local mailrelay ("satellite")-setup for cron etc.
     - postfix https://github.com/stefanux/ansible-postfix-mailrelay -> can use any SMTP-accounts (2DO include examples for microsoft365, google, a few common providers)
   - archiving
-    - mailpiler -> sysops.tv
+    - (mail-)piler -> sysops.tv
   - spamfiltering
     - rspamd (need redis)
     - spamassassin/policy-weightd/postgrey
+  - newsletter: mailman, listmonk, mautic (more a CRM), ...?
 
 **VPN**
   - openvpn
@@ -180,6 +174,9 @@ Additional roles
     - standalone
     - galera (2DO)
   - PostgreSQL ( -> geerlingguy.postgresql )
+  - management-tools:
+    - phpmyadmin
+    - phpPgAdmin
 
 **Monitoring**
   - check_mk -> sysops.tv
@@ -223,6 +220,9 @@ Additional roles
 
 **Clustering**
   - keepalived
+  - Filesync:
+    - csync2
+    - zookeeper
 
 **Reverse-Proxy/Loadbalancer**
   self-hosted:
@@ -234,6 +234,16 @@ Additional roles
     - hetzner LB
     - ...?
 
+**package management**
+  - build: fpm (effing package manager)
+  - host repository: 
+    - deb: FIXME
+    - rpm: FIXME
+
+**Log-aggregation**
+  - grafana loki
+  - graylog
+
 **Python**
   - PIP -> geerlingguy.pip
 
@@ -244,7 +254,8 @@ Additional roles
   - Wiki
     - dokuwiki https://github.com/stefanux/ansible-role-dokuwiki
     - wiki.js? (2Do: maintainer needed)
-    - bookstack (2Do: maintainer needed
+    - bookstack (2Do: maintainer needed)
+    - mediawiki (2Do: maintainer needed)
   - Netbox (IPAM/IT Asset Management)
   - Piwik (2DO)
   - passwortmanager
@@ -252,6 +263,26 @@ Additional roles
     - hashicorp vault (2DO maintainer needed)?
     - privacyIDEA (2DO maintainer needed)
   - roundcube webmail
+  - Ticketsystems
+    - Zammad
+  - kimai2 (timetracking)
+  - joplin (note taking application)
+
+**candidates**
+  - Guacamole (remote desktop gateway)
+  - doodle-clones (dudle, framadate, ...)
+  - etherpad
+  - jellyfin / emby?
+  - limesurvey
+  - mastodon (twitter-alternative)
+  - nodebb
+  - peertube
+  - teakspeak / mumble
+  - wekan? / focalboard?
+  - whiteboard https://github.com/cracker0dks/whiteboard (could be replaced by videoconferencing-tool like bbb)
+  - wordpress
+
+
 
 Requirements
 ------------
@@ -338,3 +369,9 @@ similiar projects
 - https://github.com/tteck/Proxmox
 - debops https://docs.debops.org/en/stable-3.0/
 - https://github.com/JGoutin/ansible_home
+- https://github.com/davestephens/ansible-nas
+
+appstores
+- cloudron: https://www.cloudron.io/store/index.html
+- yunohost: https://yunohost.org/en/apps
+- 
